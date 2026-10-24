@@ -1,0 +1,243 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Add your Bambu printer",
+        "menu_options": {
+          "cloud": "Sign in with Bambu account (easiest — finds everything)",
+          "scan": "Scan my network (local only)",
+          "manual": "Enter details manually"
+        }
+      },
+      "cloud": {
+        "title": "Sign in to Bambu Lab",
+        "description": "Your account hands over the printer list, each printer's access code, and enables hybrid/cloud connectivity. Leave the password empty to sign in with an emailed code instead.",
+        "data": { "email": "Email", "password": "Password (optional)", "region": "Region" }
+      },
+      "cloud_code": {
+        "title": "Check your email",
+        "description": "Bambu sent a verification code to {email}.",
+        "data": { "code": "Verification code" }
+      },
+      "cloud_tfa": {
+        "title": "Two-factor code",
+        "description": "Enter the code from your authenticator app.",
+        "data": { "code": "2FA code" }
+      },
+      "cloud_pick": {
+        "title": "Pick your printer",
+        "description": "If the printer is on this network it will be linked in hybrid mode automatically (local control + cloud fallback).",
+        "data": { "printer": "Printer" }
+      },
+      "reauth_cloud": {
+        "title": "Bambu sign-in expired",
+        "description": "Cloud tokens expire every few months. A fresh code was emailed to {email}.",
+        "data": { "code": "Verification code" }
+      },
+      "scan": {
+        "title": "Printers found",
+        "description": "Pick your printer. It must be on the same network as Home Assistant.",
+        "data": { "printer": "Printer" }
+      },
+      "code": {
+        "title": "Connect to {name}",
+        "description": "Found **{name}** at `{host}` (serial `{serial}`).\n\nEnter the **access code** from the printer's screen: Settings → Network. For full control (and on current firmware, any control at all) also enable **LAN Only Mode** and **Developer Mode** there. Note: the access code changes when you toggle those modes — read it after enabling them.",
+        "data": { "access_code": "Access code" }
+      },
+      "manual": {
+        "title": "Printer details",
+        "description": "From the printer's screen (Settings → Network): IP address, serial number, and access code. Enable LAN Only Mode + Developer Mode for control.",
+        "data": {
+          "host": "IP address or hostname",
+          "serial": "Serial number",
+          "access_code": "Access code",
+          "name": "Name"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Access code changed",
+        "description": "{name} rejected the stored access code (it changes when LAN/Developer mode is toggled). Enter the current code from the printer's screen.",
+        "data": { "access_code": "Access code" }
+      },
+      "reconfigure": {
+        "title": "Update connection",
+        "description": "Change the printer's address or access code. Tip: give the printer a DHCP reservation in your router.",
+        "data": { "host": "IP address or hostname", "access_code": "Access code" }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not reach the printer. Check the IP and that it is powered on.",
+      "invalid_auth": "The printer rejected that access code.",
+      "no_report": "Connected, but got no status. Double-check the serial number.",
+      "none_found": "No printers announced themselves. Enter the details manually.",
+      "cloud_login": "Bambu sign-in failed — check the email and password.",
+      "cloud_code": "That code was rejected — request a new one and try again.",
+      "unknown": "Unexpected error — see the logs."
+    },
+    "abort": {
+      "already_configured": "That printer is already set up (its address was updated).",
+      "reauth_successful": "Sign-in updated.",
+      "reconfigure_successful": "Connection updated.",
+      "no_cloud_devices": "No new printers on that Bambu account (already added, or none bound)."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "X2D Command Center options",
+        "menu_options": {
+          "connection": "Connection: LAN / Hybrid / Cloud",
+          "environment": "Room sensor, heater and power plug",
+          "notifications": "Notifications",
+          "costs": "Filament and energy prices",
+          "soak": "Heat soak tuning",
+          "timelapse": "Timelapse",
+          "advanced": "Advanced"
+        }
+      },
+      "connection": {
+        "title": "How Home Assistant reaches the printer",
+        "description": "LAN = fully local. Hybrid = local first, Bambu cloud as fallback (keeps working if the IP changes). Cloud = no LAN needed, but no camera/FTPS features. Tick 'Link Bambu account' to enable hybrid/cloud.",
+        "data": { "mode": "Mode", "host": "LAN address (IP)", "link_cloud": "Link a Bambu account now" }
+      },
+      "cloud_link": {
+        "title": "Link Bambu account",
+        "description": "Submit once with just the email to receive a code, then again with the code filled in.",
+        "data": { "email": "Email", "region": "Region", "code": "Verification code (second step)" }
+      },
+      "environment": {
+        "title": "Where the printer lives",
+        "description": "All optional. A room temperature sensor unlocks cold-start protection and smarter heat soaks; a humidity sensor adds dew point and condensation warnings; a smart plug powering a space heater lets the soak pre-warm the room; a power-monitoring plug on the printer tracks energy per print.",
+        "data": {
+          "ambient_temp_entity": "Room temperature sensor",
+          "ambient_humidity_entity": "Room humidity sensor",
+          "heater_entity": "Room heater switch",
+          "power_entity": "Printer power sensor (W)",
+          "min_start_temp_f": "Minimum startup temperature (°F)"
+        }
+      },
+      "notifications": {
+        "title": "Notifications",
+        "description": "Pick notify services (your phones) and which events they get. Notifications include snapshots and action buttons.",
+        "data": { "notify_services": "Notify services", "notify_events": "Events" }
+      },
+      "costs": {
+        "title": "Costs",
+        "description": "Per-type overrides example: PLA=18, PETG=22, ABS=20",
+        "data": {
+          "filament_price_kg": "Default filament price per kg",
+          "filament_prices": "Per-type overrides",
+          "energy_price_kwh": "Energy price per kWh",
+          "currency": "Currency"
+        }
+      },
+      "soak": {
+        "title": "Heat soak tuning",
+        "description": "The soak holds the chamber inside the band for the preset time, plus extra minutes the colder the room is below the reference.",
+        "data": {
+          "soak_band_c": "Band below chamber target (°C)",
+          "soak_max_heat_min": "Give up heating after (min)",
+          "soak_keep_warm_min": "Keep warm after ready (min)",
+          "soak_cold_ref_f": "Cold-scaling reference (°F)",
+          "soak_cold_min_per_f": "Extra minutes per °F below reference",
+          "soak_cold_max_min": "Cold-scaling cap (min)"
+        }
+      },
+      "timelapse": {
+        "title": "Timelapse",
+        "data": {
+          "timelapse_enabled": "Capture a frame every layer",
+          "timelapse_fps": "Render FPS",
+          "timelapse_width": "Render width",
+          "timelapse_keep_frames": "Keep frames after rendering (re-render later)",
+          "timelapse_retention": "Clips to keep (0 = unlimited)"
+        }
+      },
+      "advanced": {
+        "title": "Advanced",
+        "data": {
+          "hms_lookup": "Fetch human-readable HMS error texts from Bambu (one small download)",
+          "sd_url_prefix": "Print URL prefix",
+          "camera_url_override": "Camera URL override (blank = automatic)",
+          "dual_nozzle_t_prefix": "Address nozzles with T0/T1 G-code (dual-nozzle)"
+        }
+      }
+    }
+  },
+  "issues": {
+    "controls_rejected": {
+      "title": "{name}: printer refused a command",
+      "description": "The printer refused `{command}` ({reason}). On current Bambu firmware, control commands require **LAN Only Mode + Developer Mode** (printer screen → Settings → Network). Monitoring keeps working either way. After toggling those modes the access code changes — re-enter it when Home Assistant asks."
+    }
+  },
+  "selector": {
+    "notify_events": {
+      "options": {
+        "started": "Print started",
+        "paused": "Print paused",
+        "finished": "Print finished",
+        "failed": "Print failed",
+        "cancelled": "Print cancelled",
+        "hms_error": "HMS error",
+        "filament_runout": "Filament runout",
+        "milestone": "Progress milestones (50 %, 90 %)",
+        "soak_ready": "Heat soak ready",
+        "soak_aborted": "Heat soak aborted",
+        "too_cold": "Too cold to start",
+        "timelapse_ready": "Timelapse rendered",
+        "first_layer": "First-layers check (with snapshot)",
+        "queue": "Queue events",
+        "advisor": "Advisor alerts (abrasive nozzle, bad pairings…)",
+        "maintenance": "Maintenance due"
+      }
+    },
+    "connection_mode": {
+      "options": {
+        "lan": "LAN only (fully local)",
+        "hybrid": "Hybrid (local first, cloud fallback)",
+        "cloud": "Cloud only"
+      }
+    }
+  },
+  "entity": {
+    "select": {
+      "connection_mode": {
+        "state": {
+          "lan": "LAN only",
+          "hybrid": "Hybrid",
+          "cloud": "Cloud only"
+        }
+      }
+    }
+  },
+  "services": {
+    "send_gcode": { "name": "Send G-code", "description": "Send one or more G-code lines to the printer.", "fields": { "gcode": { "name": "G-code", "description": "Lines separated by newlines." }, "device_id": { "name": "Printer", "description": "Which printer (optional with one printer)." } } },
+    "send_command": { "name": "Send raw command", "description": "Publish a raw JSON payload to the printer's MQTT request topic.", "fields": { "payload": { "name": "Payload", "description": "JSON object." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "jog": { "name": "Jog axis", "description": "Move an axis by a relative distance (idle only).", "fields": { "axis": { "name": "Axis", "description": "X, Y or Z." }, "distance": { "name": "Distance", "description": "Millimetres, negative allowed." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "home": { "name": "Home axes", "description": "G28 (idle only).", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "extrude": { "name": "Extrude / retract", "description": "Feed filament (nozzle must be hot).", "fields": { "distance": { "name": "Length", "description": "mm" }, "direction": { "name": "Direction", "description": "extrude or retract" }, "nozzle": { "name": "Nozzle", "description": "0 or 1 on dual-nozzle printers." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "load_filament": { "name": "Load filament", "description": "Load a tray (global index; 254 = external spool).", "fields": { "tray": { "name": "Tray", "description": "Global tray index." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "unload_filament": { "name": "Unload filament", "description": "Unload the current filament.", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "set_filament": { "name": "Set tray filament", "description": "Write type/colour/temps to an AMS tray.", "fields": { "ams": { "name": "AMS", "description": "1-based unit." }, "slot": { "name": "Slot", "description": "1–4." }, "type": { "name": "Type", "description": "PLA, PETG…" }, "color": { "name": "Colour", "description": "RRGGBB." }, "temp_min": { "name": "Min temp", "description": "°C" }, "temp_max": { "name": "Max temp", "description": "°C" }, "info_idx": { "name": "Filament profile id", "description": "Optional Bambu profile id." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "dry_filament": { "name": "Dry filament", "description": "Run AMS drying (AMS 2 Pro / HT).", "fields": { "ams": { "name": "AMS", "description": "1-based unit." }, "temperature": { "name": "Temperature", "description": "°C (0 stops)." }, "minutes": { "name": "Duration", "description": "Minutes." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "print_file": { "name": "Print file", "description": "Start printing a .3mf already on the printer.", "fields": { "file": { "name": "File", "description": "Path on printer storage." }, "plate": { "name": "Plate", "description": "Plate number." }, "use_ams": { "name": "Use AMS", "description": "" }, "timelapse": { "name": "Printer timelapse", "description": "" }, "bed_leveling": { "name": "Bed levelling", "description": "" }, "flow_cali": { "name": "Flow calibration", "description": "" }, "vibration_cali": { "name": "Vibration calibration", "description": "" }, "layer_inspect": { "name": "First-layer inspection", "description": "" }, "ams_mapping": { "name": "AMS mapping", "description": "Filament→tray list." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "skip_objects": { "name": "Skip objects", "description": "Exclude objects from the running print.", "fields": { "objects": { "name": "Object ids", "description": "Comma-separated ids." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "start_heat_soak": { "name": "Start heat soak", "description": "Heat chamber and bed, hold, then notify or auto-start.", "fields": { "preset": { "name": "Preset", "description": "Material preset." }, "chamber": { "name": "Chamber", "description": "°C" }, "bed": { "name": "Bed", "description": "°C" }, "hold": { "name": "Hold", "description": "Minutes at temperature." }, "autostart": { "name": "Auto-start", "description": "Start the selected SD file when soaked." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "cancel_heat_soak": { "name": "Cancel heat soak", "description": "Stop the soak and turn heaters off.", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "render_timelapse": { "name": "Render timelapse", "description": "Render a kept frame set to MP4.", "fields": { "frame_set": { "name": "Frame set", "description": "Folder name." }, "fps": { "name": "FPS", "description": "" }, "width": { "name": "Width", "description": "" }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "speed_up_timelapse": { "name": "Speed up timelapse", "description": "Make a ×2/×4/×8 copy.", "fields": { "clip": { "name": "Clip", "description": "File name." }, "factor": { "name": "Factor", "description": "" }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "make_gif": { "name": "Make GIF", "description": "Convert a clip to a shareable GIF.", "fields": { "clip": { "name": "Clip", "description": "File name." }, "width": { "name": "Width", "description": "" }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "delete_timelapse": { "name": "Delete timelapse", "description": "Delete a clip from the library.", "fields": { "clip": { "name": "Clip", "description": "File name." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "rename_timelapse": { "name": "Rename timelapse", "description": "Rename a clip in the library.", "fields": { "clip": { "name": "Clip", "description": "Current file name." }, "name": { "name": "New name", "description": "Without extension." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "delete_sd_file": { "name": "Delete printer file", "description": "Delete a file from the printer's storage.", "fields": { "file": { "name": "File", "description": "Path on printer storage." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "pull_printer_timelapses": { "name": "Pull printer timelapses", "description": "Copy the printer's own SD-card timelapses into the library.", "fields": { "count": { "name": "Count", "description": "Newest N." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "upload_file": { "name": "Upload file", "description": "Upload a .3mf from the HA config folder to the printer, optionally start it.", "fields": { "path": { "name": "Path", "description": "Relative to the config folder." }, "name": { "name": "Remote name", "description": "" }, "start_print": { "name": "Start print", "description": "" }, "plate": { "name": "Plate", "description": "" }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "refresh": { "name": "Refresh", "description": "Request a full status push and re-list printer storage.", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "queue_add": { "name": "Queue a print", "description": "Append a printer-storage file to the print queue.", "fields": { "file": { "name": "File", "description": "Path on printer storage." }, "plate": { "name": "Plate", "description": "" }, "use_ams": { "name": "Use AMS", "description": "" }, "timelapse": { "name": "Printer timelapse", "description": "" }, "bed_leveling": { "name": "Bed levelling", "description": "" }, "layer_inspect": { "name": "First-layer inspection", "description": "" }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "queue_remove": { "name": "Remove from queue", "description": "Remove one queued job by position (0 = next).", "fields": { "index": { "name": "Index", "description": "0-based position." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "queue_clear": { "name": "Clear queue", "description": "Empty the print queue.", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "queue_start_next": { "name": "Start next queued print", "description": "Start the first job in the queue (printer must be idle, bed clear).", "fields": { "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "maintenance_done": { "name": "Mark maintenance done", "description": "Reset a maintenance item's clock (e.g. lube_rails, nozzle_wear).", "fields": { "item": { "name": "Item", "description": "Item key from the maintenance sensor." }, "device_id": { "name": "Printer", "description": "Which printer." } } },
+    "filament_info": { "name": "Filament info", "description": "Look up a filament in the built-in materials database; optionally check bonding against another material.", "fields": { "type": { "name": "Type", "description": "e.g. PETG, PLA-CF, ASA." }, "info_idx": { "name": "Bambu profile id", "description": "e.g. GFA00." }, "pair_with": { "name": "Pair with", "description": "Second material for a bonding verdict." }, "device_id": { "name": "Printer", "description": "Unused — database is global." } } }
+  }
+}

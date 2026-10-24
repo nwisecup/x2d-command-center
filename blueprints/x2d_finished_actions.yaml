@@ -1,0 +1,54 @@
+blueprint:
+  name: "X2D: when a print finishes"
+  description: >
+    Run anything when the X2D Command Center fires a print event — e.g. flash
+    lights when finished, power off the printer's smart plug 10 minutes after
+    the bed cools, or announce on a speaker.
+  domain: automation
+  source_url: https://github.com/nwisecup/x2d-command-center/blob/main/blueprints/x2d_finished_actions.yaml
+  input:
+    event_entity:
+      name: Printer event entity
+      selector:
+        entity:
+          integration: bambu_x2d
+          domain: event
+    event_types:
+      name: Which events
+      default: ["print_finished"]
+      selector:
+        select:
+          multiple: true
+          options:
+            - print_started
+            - print_finished
+            - print_failed
+            - print_cancelled
+            - hms_error
+            - filament_runout
+            - soak_ready
+            - too_cold
+            - timelapse_ready
+    actions:
+      name: What to do
+      selector:
+        action:
+
+triggers:
+  - trigger: state
+    entity_id: !input event_entity
+    not_to: ["unknown", "unavailable"]
+
+conditions:
+  - condition: template
+    value_template: >
+      {{ state_attr(trigger.entity_id, 'event_type') in event_types }}
+
+variables:
+  event_types: !input event_types
+
+actions:
+  - choose: []
+    default: !input actions
+
+mode: queued

@@ -1,0 +1,4 @@
+custom_components/bambu_x2d/__pycache__/
+**/__pycache__/
+*.pyc
+.pytest_cache/

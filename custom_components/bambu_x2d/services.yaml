@@ -1,0 +1,359 @@
+send_gcode:
+  fields:
+    device_id: &device
+      selector:
+        device:
+          integration: bambu_x2d
+    gcode:
+      required: true
+      example: "G28"
+      selector:
+        text:
+          multiline: true
+
+send_command:
+  fields:
+    device_id: *device
+    payload:
+      required: true
+      example: '{"pushing":{"command":"pushall"}}'
+      selector:
+        text:
+          multiline: true
+
+jog:
+  fields:
+    device_id: *device
+    axis:
+      required: true
+      selector:
+        select:
+          options: ["X", "Y", "Z"]
+    distance:
+      required: true
+      example: 10
+      selector:
+        number:
+          min: -256
+          max: 256
+          step: 0.1
+          unit_of_measurement: mm
+          mode: box
+
+home:
+  fields:
+    device_id: *device
+
+extrude:
+  fields:
+    device_id: *device
+    distance:
+      required: true
+      selector:
+        number:
+          min: 1
+          max: 200
+          unit_of_measurement: mm
+    direction:
+      selector:
+        select:
+          options: ["extrude", "retract"]
+    nozzle:
+      selector:
+        number:
+          min: 0
+          max: 1
+          mode: box
+
+load_filament:
+  fields:
+    device_id: *device
+    tray:
+      required: true
+      example: 1
+      selector:
+        number:
+          min: 0
+          max: 254
+          mode: box
+
+unload_filament:
+  fields:
+    device_id: *device
+
+set_filament:
+  fields:
+    device_id: *device
+    ams:
+      required: true
+      selector:
+        number: {min: 1, max: 8, mode: box}
+    slot:
+      required: true
+      selector:
+        number: {min: 1, max: 4, mode: box}
+    type:
+      required: true
+      example: PETG
+      selector:
+        text:
+    color:
+      required: true
+      example: "1D9E75"
+      selector:
+        text:
+    temp_min:
+      selector:
+        number: {min: 150, max: 350, mode: box}
+    temp_max:
+      selector:
+        number: {min: 150, max: 350, mode: box}
+    info_idx:
+      selector:
+        text:
+
+dry_filament:
+  fields:
+    device_id: *device
+    ams:
+      required: true
+      selector:
+        number: {min: 1, max: 8, mode: box}
+    temperature:
+      required: true
+      selector:
+        number: {min: 0, max: 85, unit_of_measurement: "°C"}
+    minutes:
+      required: true
+      selector:
+        number: {min: 0, max: 1440, unit_of_measurement: min}
+
+print_file:
+  fields:
+    device_id: *device
+    file:
+      required: true
+      example: "benchy.gcode.3mf"
+      selector:
+        text:
+    plate:
+      selector:
+        number: {min: 1, max: 16, mode: box}
+    use_ams:
+      selector:
+        boolean:
+    timelapse:
+      selector:
+        boolean:
+    bed_leveling:
+      selector:
+        boolean:
+    flow_cali:
+      selector:
+        boolean:
+    vibration_cali:
+      selector:
+        boolean:
+    layer_inspect:
+      selector:
+        boolean:
+    ams_mapping:
+      example: "[0, 1]"
+      selector:
+        object:
+
+skip_objects:
+  fields:
+    device_id: *device
+    objects:
+      required: true
+      example: "409, 411"
+      selector:
+        text:
+
+start_heat_soak:
+  fields:
+    device_id: *device
+    preset:
+      selector:
+        select:
+          options: ["pla", "petg", "abs_asa", "pc", "pa", "custom"]
+    chamber:
+      selector:
+        number: {min: 0, max: 65, unit_of_measurement: "°C"}
+    bed:
+      selector:
+        number: {min: 0, max: 120, unit_of_measurement: "°C"}
+    hold:
+      selector:
+        number: {min: 0, max: 120, unit_of_measurement: min}
+    autostart:
+      selector:
+        boolean:
+
+cancel_heat_soak:
+  fields:
+    device_id: *device
+
+render_timelapse:
+  fields:
+    device_id: *device
+    frame_set:
+      required: true
+      selector:
+        text:
+    fps:
+      selector:
+        number: {min: 5, max: 60}
+    width:
+      selector:
+        select:
+          options: ["960", "1280", "1920"]
+
+speed_up_timelapse:
+  fields:
+    device_id: *device
+    clip:
+      required: true
+      selector:
+        text:
+    factor:
+      selector:
+        select:
+          options: ["2", "4", "8"]
+
+make_gif:
+  fields:
+    device_id: *device
+    clip:
+      required: true
+      selector:
+        text:
+    width:
+      selector:
+        number: {min: 240, max: 960, step: 20}
+
+delete_timelapse:
+  fields:
+    device_id: *device
+    clip:
+      required: true
+      selector:
+        text:
+
+rename_timelapse:
+  fields:
+    device_id: *device
+    clip:
+      required: true
+      selector:
+        text:
+    name:
+      required: true
+      example: "first_abs_bracket"
+      selector:
+        text:
+
+delete_sd_file:
+  fields:
+    device_id: *device
+    file:
+      required: true
+      example: "cache/benchy.gcode.3mf"
+      selector:
+        text:
+
+pull_printer_timelapses:
+  fields:
+    device_id: *device
+    count:
+      selector:
+        number: {min: 1, max: 50, mode: box}
+
+upload_file:
+  fields:
+    device_id: *device
+    path:
+      required: true
+      example: "www/models/bracket.3mf"
+      selector:
+        text:
+    name:
+      selector:
+        text:
+    start_print:
+      selector:
+        boolean:
+    plate:
+      selector:
+        number: {min: 1, max: 16, mode: box}
+
+refresh:
+  fields:
+    device_id: *device
+
+queue_add:
+  fields:
+    device_id: *device
+    file:
+      required: true
+      example: "cache/bracket.gcode.3mf"
+      selector:
+        text:
+    plate:
+      selector:
+        number: {min: 1, max: 16, mode: box}
+    use_ams:
+      selector:
+        boolean:
+    timelapse:
+      selector:
+        boolean:
+    bed_leveling:
+      selector:
+        boolean:
+    layer_inspect:
+      selector:
+        boolean:
+
+queue_remove:
+  fields:
+    device_id: *device
+    index:
+      required: true
+      selector:
+        number: {min: 0, max: 29, mode: box}
+
+queue_clear:
+  fields:
+    device_id: *device
+
+queue_start_next:
+  fields:
+    device_id: *device
+
+maintenance_done:
+  fields:
+    device_id: *device
+    item:
+      required: true
+      example: "lube_rails"
+      selector:
+        select:
+          options: ["lube_rails", "clean_rods", "nozzle_inspect", "extruder_clean", "fans_dust", "filter_replace", "ams_path", "bed_wash", "nozzle_wear"]
+
+filament_info:
+  fields:
+    device_id: *device
+    type:
+      example: "PETG"
+      selector:
+        text:
+    info_idx:
+      example: "GFA00"
+      selector:
+        text:
+    pair_with:
+      example: "TPU"
+      selector:
+        text:

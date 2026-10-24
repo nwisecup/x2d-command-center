@@ -1,0 +1,29 @@
+# Drop-in dashboard: the card does the work. Add more printers as more cards.
+title: Printer
+views:
+  - title: X2D
+    path: x2d
+    max_columns: 2
+    sections:
+      - type: grid
+        cards:
+          - type: custom:x2d-command-card
+            # entry_id: abc123        # only needed with multiple printers
+            # tabs: [live, soak, timelapse]   # trim tabs if you like
+      - type: grid
+        cards:
+          # Everything is also normal entities — mix in any core card:
+          - type: history-graph
+            title: Thermals
+            hours_to_show: 12
+            entities:
+              - sensor.x2d_nozzle_temperature
+              - sensor.x2d_bed_temperature
+              - sensor.x2d_chamber_temperature
+          - type: statistics-graph
+            title: Print hours
+            period: day
+            days_to_show: 30
+            stat_types: [change]
+            entities:
+              - sensor.x2d_lifetime_print_time
