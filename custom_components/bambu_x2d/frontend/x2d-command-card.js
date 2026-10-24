@@ -111,7 +111,9 @@ class X2DCommandCard extends HTMLElement {
         { type: `${DOMAIN}/subscribe`, ...(this._config.entry_id ? { entry_id: this._config.entry_id } : {}) },
       );
     } catch (e) {
-      this._noPrinter = (e && (e.code === "not_found" || /no printer/i.test(e.message || "")));
+      // not_found: integration loaded, no printer yet. unknown_command: integration not loaded at all
+      // (no printer and no `bambu_x2d:` line) — either way, invite the user to enroll.
+      this._noPrinter = !!e && (["not_found", "unknown_command"].includes(e.code) || /no printer|unknown command/i.test(e.message || ""));
       this._error = e.message || "subscription failed";
       this._render();
     }

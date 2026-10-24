@@ -4,13 +4,14 @@ from __future__ import annotations
 import logging
 from pathlib import Path
 
+import voluptuous as vol
+
 from homeassistant.components.frontend import add_extra_js_url
 from homeassistant.components.http import StaticPathConfig
 from homeassistant.config_entries import ConfigEntry, ConfigEntryState
 from homeassistant.const import Platform
 from homeassistant.core import HomeAssistant
 from homeassistant.exceptions import ConfigEntryAuthFailed, ConfigEntryNotReady
-from homeassistant.helpers import config_validation as cv
 from homeassistant.helpers.typing import ConfigType
 
 from .const import DOMAIN, VERSION
@@ -25,7 +26,10 @@ PLATFORMS = [
     Platform.BUTTON, Platform.LIGHT, Platform.FAN, Platform.CLIMATE, Platform.CAMERA, Platform.IMAGE,
     Platform.UPDATE, Platform.EVENT, Platform.DATETIME,
 ]
-CONFIG_SCHEMA = cv.config_entry_only_config_schema(DOMAIN)
+# Printers are always added through the UI. An empty `bambu_x2d:` line in
+# configuration.yaml is allowed only so the dashboard card (and its
+# ready-to-enroll landing screen) loads before the first printer is added.
+CONFIG_SCHEMA = vol.Schema({vol.Optional(DOMAIN): vol.Any(None, {})}, extra=vol.ALLOW_EXTRA)
 CARD_URL = f"/{DOMAIN}_static"
 
 

@@ -109,6 +109,17 @@ repairs, and the raw G-code/JSON consoles.
    prices. All optional — defaults are sane.
 4. Add the card: `type: custom:x2d-command-card` (it registers itself).
 
+**Installing before your printer arrives?** Home Assistant doesn't load an
+integration until a device is added, so the card can't register yet. Add this
+single line to `configuration.yaml`, restart, and refresh your browser — the
+card then shows its ready-to-enroll landing screen:
+
+```yaml
+bambu_x2d:
+```
+
+You can leave the line in place after enrolling; it does nothing else.
+
 For **control** on current Bambu firmware the printer needs LAN Only Mode +
 Developer Mode (printer screen → Settings → Network); monitoring works without.
 The cloud link covers monitoring + core job control per Bambu's own channel.

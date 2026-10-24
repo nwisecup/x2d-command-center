@@ -2,7 +2,7 @@
   "domain": "bambu_x2d",
   "name": "X2D Command Center",
   "after_dependencies": ["media_source", "stream", "mobile_app", "notify"],
-  "codeowners": ["@YOUR_GITHUB_USER"],
+  "codeowners": ["@nwisecup"],
   "config_flow": true,
   "dependencies": ["ffmpeg", "http", "frontend", "websocket_api"],
   "documentation": "https://github.com/nwisecup/x2d-command-center",
@@ -11,5 +11,5 @@
   "issue_tracker": "https://github.com/nwisecup/x2d-command-center/issues",
   "loggers": ["paho"],
   "requirements": ["paho-mqtt>=1.6.1"],
-  "version": "0.2.0"
+  "version": "0.2.1"
 }
