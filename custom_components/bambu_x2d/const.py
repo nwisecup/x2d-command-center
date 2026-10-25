@@ -3,7 +3,7 @@ from __future__ import annotations
 
 DOMAIN = "bambu_x2d"
 NAME = "X2D Command Center"
-VERSION = "0.2.1"
+VERSION = "0.2.2"
 MANUFACTURER = "Bambu Lab"
 
 MQTT_PORT = 8883

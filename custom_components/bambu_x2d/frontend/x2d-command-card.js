@@ -375,7 +375,7 @@ class X2DCommandCard extends HTMLElement {
         h("div", {}, h("b", {}, icon("soak"), "Garage-grade heat soak"), "Material presets, cold-weather scaling and a learned heat-rate model, ready before you are."),
         h("div", {}, h("b", {}, icon("filament"), "Filament science built in"), "Thermal, drying and bonding data for 17 materials — the app warns before the print fails."),
         h("div", {}, h("b", {}, icon("timelapse"), "Timelapse studio"), "Frame-per-layer capture, auto-render, GIFs and a library you can cast to the TV.")),
-      h("button", { class: "cta", onclick: () => this._nav(`/config/integrations/add?domain=${DOMAIN}`) },
+      h("button", { class: "cta", onclick: () => window.location.assign(`/_my_redirect/config_flow_start?domain=${DOMAIN}`) },
         icon("live", 18), "Connect your X2D"),
       h("div", { class: "hint" },
         "Printer not here yet? This screen is ready and waiting. When it arrives: power it up, join it to Wi-Fi, ",
